@@ -6,8 +6,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class ClusteringApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
 
 }
