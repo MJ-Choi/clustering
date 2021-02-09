@@ -11,7 +11,8 @@ public class Node {
 
   public enum NodeRole{
     LEADER,
-    CANDIDATE
+    CANDIDATE,
+    OUT_OF_SVC
   }
 
 }
