@@ -28,7 +28,9 @@ dependencies {
 	implementation 'com.hazelcast:hazelcast:3.9.4'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'com.hazelcast:hazelcast.test'
 }
 
 test {

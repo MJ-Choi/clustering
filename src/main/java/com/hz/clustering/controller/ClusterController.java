@@ -19,6 +19,11 @@ class ClusterController {
     this.clustering = clusteringService;
   }
 
+  @GetMapping("")
+  Object status() {
+    return clustering.getClusterStatus();
+  }
+
   @GetMapping("/leader")
   NodeRole isLeader() {
     return clustering.isLeader();

@@ -30,6 +30,11 @@ final class HzClusteringService implements ClusteringService {
   }
 
   @Override
+  public Object getClusterStatus() {
+    return hz.getCluster().getClusterState();
+  }
+
+  @Override
   public NodeRole isLeader() {
     return (Objects.equals(getLeaderIp(), getLocalIp())) ? NodeRole.LEADER : NodeRole.CANDIDATE;
   }
@@ -50,14 +55,16 @@ final class HzClusteringService implements ClusteringService {
   }
 
   private NodeRole isLeaderMember(Member m) {
-    return Objects.equals(getMemberIp(m), getLeaderIp()) ? NodeRole.LEADER : NodeRole.CANDIDATE;
+    return Objects.equals(getMemberIp(m), getLeaderIp())
+      && Objects.equals(getMemberPort(m), getLeaderPort())
+      ? NodeRole.LEADER : NodeRole.CANDIDATE;
   }
 
   private InetAddress getLeaderIp() {
     InetAddress ip = null;
     try {
-      Member oldestMember = hz.getCluster().getMembers().iterator().next();
-      ip = oldestMember.getAddress().getInetAddress();
+      Member leader = hz.getCluster().getMembers().iterator().next();
+      ip = leader.getAddress().getInetAddress();
       log.debug(String.format("getInetAddress() :: LEADER IP = %s", ip.toString()));
     } catch (UnknownHostException e) {
       log.error(e.getMessage());
@@ -85,6 +92,15 @@ final class HzClusteringService implements ClusteringService {
       log.error(e.getMessage());
     }
     return ip;
+  }
+
+  private int getLeaderPort() {
+    Member leader = hz.getCluster().getMembers().iterator().next();
+    return leader.getAddress().getPort();
+  }
+
+  private int getMemberPort(Member member) {
+    return member.getAddress().getPort();
   }
 }
 
