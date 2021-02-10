@@ -1,10 +1,13 @@
-## Test Clustering using Hazelcast
+## For Clustering Implemant Test using Hazelcast
+ClusteringController : Cluster Information
+- `/cluster` : Inquiry Cluster Status
+- `/cluster/leader` : Inquiry Node Role in Localhost
+- `/cluster/members` : Inquiry Cluster members IP, Port, Role
+CacheController : Cache Management
+- `/cache/{key}` : Inquiry Cache Key Data
+- `/cache/{key}/{value}` : Add Data into Cache used Map
+- `/cache/remove/{key}` : Remove Key Data in Cache
 
-Change Origin to like this: 
-- Convert Maven to Gradle
-- Adapt AOP
-
----
 
 ### Test Script using Container
 #### Precondition
