@@ -30,7 +30,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'com.hazelcast:hazelcast.test'
+	implementation 'junit:junit:4.12'
 }
 
 test {

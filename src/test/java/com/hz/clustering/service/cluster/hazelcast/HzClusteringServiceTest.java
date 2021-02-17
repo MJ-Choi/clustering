@@ -7,9 +7,9 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class HzClusteringServiceTest {
+public class HzClusteringServiceTest {
 
   private HzClusteringService service;
 
@@ -26,12 +26,12 @@ class HzClusteringServiceTest {
   }
 
   @Test
-  void isLeader() {
+  public void isLeader() {
     Assert.assertEquals(service.isLeader(), NodeRole.LEADER);
   }
 
   @Test
-  void getMembers() {
+  public void getMembers() {
     Map<String, Object> map = service.getMembers();
     Assert.assertEquals(map.get("size"), instance.getCluster().getMembers().size());
   }
