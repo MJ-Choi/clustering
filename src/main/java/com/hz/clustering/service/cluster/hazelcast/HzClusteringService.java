@@ -45,7 +45,7 @@ final class HzClusteringService implements ClusteringService {
     List<Node> members = new ArrayList<>();
     for (Member m : hz.getCluster().getMembers()) {
       Node node = new Node();
-      node.setIp(m.getAddress().toString());
+      node.setIp(String.format("%s:%s", getMemberIp(m), getMemberPort(m)));
       node.setRole(isLeaderMember(m));
       members.add(node);
     }
@@ -60,38 +60,17 @@ final class HzClusteringService implements ClusteringService {
       ? NodeRole.LEADER : NodeRole.CANDIDATE;
   }
 
-  private InetAddress getLeaderIp() {
-    InetAddress ip = null;
-    try {
-      Member leader = hz.getCluster().getMembers().iterator().next();
-      ip = leader.getAddress().getInetAddress();
-      log.debug(String.format("getInetAddress() :: LEADER IP = %s", ip.toString()));
-    } catch (UnknownHostException e) {
-      log.error(e.getMessage());
-    }
-    return ip;
+  private String getLeaderIp() {
+    Member leader = hz.getCluster().getMembers().iterator().next();
+    return leader.getSocketAddress().getAddress().getHostAddress();
   }
 
-  private InetAddress getMemberIp(Member m) {
-    InetAddress ip = null;
-    try {
-      ip = m.getAddress().getInetAddress();
-      log.debug(String.format("MEMBER IP = %s", ip.toString()));
-    } catch (UnknownHostException e) {
-      log.error(e.getMessage());
-    }
-    return ip;
+  private String getMemberIp(Member m) {
+    return m.getSocketAddress().getAddress().getHostAddress();
   }
 
-  private InetAddress getLocalIp() {
-    InetAddress ip = null;
-    try {
-      ip = InetAddress.getLocalHost();
-      log.debug(String.format("LOCAL IP = %s", ip.toString()));
-    } catch (UnknownHostException e) {
-      log.error(e.getMessage());
-    }
-    return ip;
+  private String getLocalIp() {
+    return hz.getCluster().getLocalMember().getSocketAddress().getAddress().getHostAddress();
   }
 
   private int getLeaderPort() {
